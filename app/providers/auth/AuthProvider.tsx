@@ -3,19 +3,27 @@ import { FC, PropsWithChildren, createContext, useEffect, useState } from 'react
 
 import { IContext, TypeUserState } from './auth-provider.interface';
 import { IUser } from '../../types/user.interface';
+import { getAccessToken, getUserFromStorage } from '../../services/auth/auth.helper';
 
 export const AuthContext = createContext({} as IContext);
 
 let ignore = SplashScreen.preventAutoHideAsync();
 
 const AuthProvider: FC<PropsWithChildren<unknown>> = ({ children }) => {
-  const [user, setUser] = useState<TypeUserState>({} as IUser);
+  const [user, setUser] = useState<TypeUserState>(null);
 
   useEffect(() => {
     let isMounted = true;
 
     const checkAccessToken = async () => {
       try {
+        const accessToken = await getAccessToken();
+        if (accessToken) {
+          const user = await getUserFromStorage();
+          if (isMounted) {
+            setUser(user);
+          }
+        }
       } catch {
       } finally {
         await SplashScreen.hideAsync();

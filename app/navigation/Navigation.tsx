@@ -3,6 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import PrivatNavigator from './PrivatNavigator';
 import { useAuth } from '../hooks/useAuth';
 import BottomMenu from '../components/ui/layout/bottom-menu/BottomMenu';
+import { useCheckAuth } from '../providers/auth/useCheckAuth';
 
 const Navigation: FC = () => {
   const { user } = useAuth();
@@ -19,6 +20,8 @@ const Navigation: FC = () => {
 
     return () => navRef.removeListener('state', listener);
   }, []);
+
+  useCheckAuth(currentRoute);
 
   return (
     <>

@@ -5,20 +5,21 @@ import { IAuthFormData } from '../../../types/auth.interface';
 import Loader from '../../ui/Loader';
 import Button from '../../ui/button/Button';
 import AuthFields from './AuthFields';
+import { useAuthMutations } from './useAuthMutations';
 
 const Auth: FC = () => {
-  console.log('Auth');
   const [isReg, setIsReg] = useState(false);
 
   const { reset, handleSubmit, control } = useForm<IAuthFormData>({
     mode: 'onChange',
   });
 
-  const onSubmit: SubmitHandler<IAuthFormData> = (data) => {
-    console.log(data);
-  };
+  const { loginSync, registerSync, isLoading } = useAuthMutations(reset);
 
-  const isLoading = false;
+  const onSubmit: SubmitHandler<IAuthFormData> = (data) => {
+    if (isReg) registerSync(data);
+    else loginSync(data);
+  };
 
   return (
     <View className="mx-2 items-center justify-center h-full">
