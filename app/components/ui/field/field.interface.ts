@@ -5,7 +5,7 @@ export interface IField<T extends FieldValues>
   extends Omit<TextInputProps, 'onChange' | 'value' | 'onChangeText'> {
   control: Control<T>;
   name: FieldPath<T>;
-  rules: Omit<
+  rules?: Omit<
     RegisterOptions<T, FieldPath<T>>,
     'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'
   >;

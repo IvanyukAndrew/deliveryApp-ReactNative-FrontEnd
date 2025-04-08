@@ -5,14 +5,14 @@ import { errorCatch } from './error.api';
 import { getNewTokens } from './helper.api';
 
 const instance = axios.create({
-  baseURL: API_URL,
+  baseURL: 'http://192.168.0.109:4200/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-instance.interceptors.request.use((config) => {
-  const accessToken = getAccessToken();
+instance.interceptors.request.use(async (config) => {
+  const accessToken = await getAccessToken();
 
   if (config.headers && accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
